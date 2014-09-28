@@ -1,0 +1,67 @@
+/* Bootstrap tweaks */
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+
+
+/*Image */
+#company-logo{
+	width:70%;
+	height:auto;
+	max-height:230px;
+}
+
+/*Header */
+.header-wrap{
+	width: 100%;
+	min-height: 300px;
+	padding: 45px 30px 30px 30px;
+	margin: 0px 0px 25px 0px;
+	color:white;
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		right top,
+		color-stop(0, #0068A4),
+		color-stop(0.72, #1CB6C4)
+		);
+	background-image: -o-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
+	background-image: -moz-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
+	background-image: -webkit-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
+	background-image: -ms-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
+	background-image: linear-gradient(to right top, #0068A4 0%, #1CB6C4 72%);
+}
+
+.navs-container{
+	margin: 0px 0px 0px 0px;
+	padding: 15px;
+	border: 1px solid #00CED1;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	
+}
+
+.tab-content{
+	text-align: justify;
+	min-height: 500px;
+}
+
+.navs-container .tab-pane{
+	padding: 10px;
+
+}
+.schedule-wrap{
+	background-color: gray;
+	color: white;
+	padding: 30px;
+	min-height: 400px;
+	min-width: 100%;
+	text-align: center;
+}
+
+.info-box{
+	min-height: 200px;
+}
