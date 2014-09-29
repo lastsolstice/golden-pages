@@ -1,0 +1,24 @@
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#l1" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Messages</a>
+  </li>
+  <li>
+    <a href="#l2" data-toggle="tab"><i class="fa fa-calendar"></i>&nbsp;Schedule</a>
+  </li>
+  <li>
+    <a href="#l3" data-toggle="tab"><i class="fa fa-users"></i>&nbsp;Following</a>
+  </li>
+  <li>
+    <a href="#l4" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;Account</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div id="l1" class="tab-pane fade in active">
+  </div>
+  <div id="l2" class="tab-pane fade in active">
+  </div>
+  <div id="l3" class="tab-pane fade in active">
+  </div>
+  <div id="l4" class="tab-pane fade in active">
+  </div>
+</div>

@@ -65,3 +65,59 @@
 .info-box{
 	min-height: 200px;
 }
+
+#profile-pic{
+	max-width: 130px;
+	min-width: 130px;
+}
+
+footer{
+	background-color: #333;
+	color: white;
+	min-height: 350px;
+	width: 100%;
+	padding:20px;
+	margin:0px;
+	font-size:13px;
+
+
+}
+footer div{
+	padding:0px;
+}
+body{
+	margin-bottom:0;
+	padding:0px;
+}
+
+footer .footer_header {
+	color: #c4c4c4;
+	font-style: italic;
+	font-weight: 300;
+	font-size: 25px;
+	margin-bottom: 40px;
+	margin-left: 15px; 
+}
+
+footer p, footer a{
+	font-size: .9em;
+	color:white;
+}
+
+div.info p{
+	margin:0;
+	padding:0;
+}
+
+footer div.end a, footer div.end p{
+	font-size:13px;
+}
+
+footer hr.featurette-divider, .featurette-container hr.featurette-divider{
+	margin: 20px 0px;
+}
+
+ul.inline-list{
+	display: inline;
+}
+
