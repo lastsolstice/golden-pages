@@ -29,9 +29,9 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter pw = response.getWriter();
-		pw.println("Hello World");
-		pw.flush();
+	//	PrintWriter pw = response.getWriter();
+	//	pw.println("Hello World");
+	//	pw.flush();
 
 	}
 

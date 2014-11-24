@@ -7,11 +7,11 @@
 .im-centered{margin: auto; max-width: 300px;}
 
 form#register button{
-	width:120px;
+	width:130px;
 }
 
 
-#account-types button{
+#account-types .btn{
 	
 	margin:15px;
 	border-radius:4px;
