@@ -4,6 +4,30 @@
 	margin-bottom: 0px;
 }
 
+.im-centered{margin: auto; max-width: 300px;}
+
+form#register button{
+	width:120px;
+}
+
+
+#account-types button{
+	
+	margin:15px;
+	border-radius:4px;
+}
+
+form#register{
+	padding:20px;
+}
+
+
+
+form#register input, .register-container{
+	max-width:400px;
+	margin:auto;
+}
+
 
 
 /*Image */
@@ -121,4 +145,6 @@ footer hr.featurette-divider, .featurette-container hr.featurette-divider{
 ul.inline-list{
 	display: inline;
 }
+
+
 

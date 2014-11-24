@@ -58,7 +58,7 @@
 <hr class="featurette-divider">
 
 <div class="end container marketing" style="">
- <p class="pull-left">&copy; 2014 Golden Pages, LLC &middot; <a href="/">Home</a> &middot; <a href="/about/">About Us</a> &middot; <a href="/faq/">FAQ</a> &middot; <a href="/contact/">Contact Us</a></p>  
+ <p class="pull-left">&copy; 2014 Golden Pages, LLC &middot; <a href="${pageContext.request.contextPath}">Home</a> &middot; <a href="/about/">About Us</a> &middot; <a href="/faq/">FAQ</a> &middot; <a href="/contact/">Contact Us</a></p>  
 
 </div>
 

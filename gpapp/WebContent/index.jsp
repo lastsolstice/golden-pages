@@ -7,37 +7,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 
 
 
 
 <title>Golden Pages</title>
-<jsp:include page="includes/head.jsp" flush="true"/>
+<jsp:include page="includes/head.jsp" flush="true" />
 </head>
 <body>
-	<jsp:include page="includes/navbar.jsp" flush="true"/>
-	<c:choose>
 
-		<c:when test="${user==null}">
-			<a href="#">Login</a>
-			<a href="#">Register</a>
-		</c:when>
-		<c:otherwise>
-			
-		
-			<%-- Consumer --%>
-			<jsp:include page="includes/panel.jsp" flush="true" />
-
-
-		</c:otherwise>
-	</c:choose>
-
-
+	<jsp:include page="includes/navbar.jsp" flush="true" />
+	<div class="container">
+		<c:choose>
+			<c:when test="${user==null}">
+				<div class="row">
+					<div class="col-md-6">
+					</div>
+					<div class="col-md-6">
+					<jsp:include page="includes/register.jsp" flush="true" />
+					</div>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<%-- Consumer --%>
+				<jsp:include page="includes/panel.jsp" flush="true" />
+			</c:otherwise>
+		</c:choose>
+	</div>
 
 
 
