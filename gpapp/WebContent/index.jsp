@@ -27,6 +27,8 @@
 			<c:when test="${user==null}">
 				<div class="row">
 					<div class="col-md-6">
+						<div id="message_box" class="alert" role="alert">
+						</div>
 					</div>
 					<div class="col-md-6">
 					<jsp:include page="includes/register.jsp" flush="true" />

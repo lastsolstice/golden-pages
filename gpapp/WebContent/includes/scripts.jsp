@@ -20,17 +20,16 @@ $(document).ready(function() {
       type: form.attr('method'),
       url: form.attr('action'),
       data: form.serialize(),
-      success: function(message){								//in this case it is returning the strings
-      	infoBox.addClass("alert");
-      	if(message.substring(0,3) == "Con"){//congratulations
-			infoBox.removeClass("alert-danger");
-			infoBox.addClass("alert-success");
-			infoBox.html(message);
-			$("#form").trigger('reset');
-		}else{
+      success: function(response){								//in this case it is returning the strings
+      	if(response.status == "OK"){
+      		infoBox.removeClass("alert-danger");
+      		infoBox.addClass("alert-success");
+      		$("#form").trigger('reset');
+      		infoBox.html(response.message);
+      	}else{
 			infoBox.removeClass("alert-success");
 			infoBox.addClass("alert-danger");
-			infoBox.html(message);
+			infoBox.html(response.message);
 		
 		}
      }
@@ -40,6 +39,11 @@ $(document).ready(function() {
     // Optionally alert the user of success here...
     }).fail(function() {
     // Optionally alert the user of an error here...
+		infoBox.removeClass("alert-success");
+		infoBox.addClass("alert-danger");
+		infoBox.html("Your request cannot be completed at this time");
+    
+    
     });
     event.preventDefault(); 									// Prevent the form from submitting via the browser.
    });
@@ -52,7 +56,7 @@ $(document).ready(function() {
 	//$("#bname").hide();
 	$('#account-types .btn').click(function() {
 	    $(this).addClass('active').siblings().removeClass('active');
-	    if($(this).children().first().attr("id") == "option1"){
+	    if($(this).children().first().attr("id") == "opt-cons"){
 	    	$("#bname").slideUp('slow');
 	    	$("#bname").empty();
 	    	//alert("btn 1 selected");

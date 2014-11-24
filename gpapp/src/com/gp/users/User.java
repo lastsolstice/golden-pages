@@ -1,4 +1,4 @@
-package com.gp;
+package com.gp.users;
 
 public class User {
 
