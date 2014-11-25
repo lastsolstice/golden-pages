@@ -1,15 +1,21 @@
 package com.gp.users;
 
+import java.sql.SQLException;
+
 public class UserFactory {
 	
 	
 	// TODO Auto-generated method stub
-	public UserDTO createBusinessUser(String bizName, String fullName, String username, String email, String password){
-		return null;
+	public  void createBusinessUser(String bizName, UserDTO user){
+		user.setType(UserDTO.Type.BIZ_USER);
+		
+		
+		
 	}
 	// TODO Auto-generated method stub
-	public UserDTO createConsumerUser(String fullName, String username, String email, String password){
-		return null;
+	public void createConsumerUser(UserDTO user) throws Exception{
+		UserDAO dao = new UserDAO("jdbc/gpappdb");
+		dao.create(user);
 	}
 	
 	

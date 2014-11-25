@@ -48,66 +48,68 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
 
 		String action = request.getParameter("action");
 		JSONObject responseJSON = new JSONObject();
-		
+
 		responseJSON.put("status", "OK");
-		
 
 		switch (action) {
 		case REGISTER_ACTION:
-			UserFactory factory = new UserFactory();							//TODO implement
-			UserDTO user = null;
+			if (request.getSession().getAttribute("user") != null) {
+				System.out.println("User already exist");
+				responseJSON.put("status", "ERROR");
+				responseJSON.put("message", "Trying to create a duplicate account");
+				break;
+			}
+			UserFactory factory = new UserFactory(); // TODO implement
+			UserDTO user = new UserDTO();
 			String option = request.getParameter("options");
-			String fullName = request.getParameter("full-name");
-			String username = request.getParameter("username");
-			String email = request.getParameter("email");
-			String password = request.getParameter("password");
+			user.setFullName(request.getParameter("full-name"));
+			user.setUsername(request.getParameter("username"));
+			user.setEmail(request.getParameter("email"));
+			user.setPassword(request.getParameter("password"));
 			String passConfirm = request.getParameter("password-confirm");
-			if(!Helper.isValid(option, fullName, username, email, password, passConfirm)){
+			if (!Helper.isValid(option, user.getEmail(), user.getFullName(),
+					user.getPassword(), user.getUsername(), passConfirm)) {
 				System.out.println("ERROR IN INPUT");
 				responseJSON.put("status", "ERROR");
 				responseJSON.put("message", "Missing attribute");
 				break;
 			}
-			if(!password.equals(passConfirm)){
+			if (!user.getPassword().equals(passConfirm)) {
 				responseJSON.put("status", "ERROR");
 				responseJSON.put("message", "The passwords didn't match.");
 				break;
 			}
-			if(option.equals("opt-biz")){
-				String bizName = request.getParameter("bname");
-				user = factory.createBusinessUser(bizName, fullName, username, email, password);
+			try {
+				if (option.equals("opt-biz")) {
+					String bizName = request.getParameter("bname");
+					factory.createBusinessUser(bizName, user);
+				} else if (option.equals("opt-cons")) {
+					factory.createConsumerUser(user);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				responseJSON.put("status", "ERROR");
+				responseJSON.put("message", "SQL problem");
+				break;
 			}
-			else if(option.equals("opt-biz")){
-				user = factory.createConsumerUser(fullName, username, email, password);
-				responseJSON.put("message", "Missing attributes");
-			}
-			responseJSON.put("message", "The account was created");	
-			
-			
+			responseJSON.put("message", "The account was created");
 			request.getSession().setAttribute("user", user);
-			break;  //break case
-			
-			
-			
-			
-			
-			
+			response.sendRedirect("/" + getServletContext().getServletContextName());
+			break; // break case
+
 		default:
 			System.out.println("Error");
 			break;
 		}
-		
+
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json");
 		out.println(responseJSON);
 		out.flush();
-		
-		
-		
+
 	}
 
 }

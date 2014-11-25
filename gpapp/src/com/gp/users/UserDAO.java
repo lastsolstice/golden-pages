@@ -12,17 +12,16 @@ import com.mysql.jdbc.PreparedStatement;
 
 //DATA ACCCESS OBJECT J2EE PATTERNS BOOK PAGE 467
 public class UserDAO extends SQLHandler {
-	protected static final String FIELDS_INSERT = "username, email, password, firstName, lastName, statusJSON";
-	protected static final String FIELDS_RETURN = "userID, " + FIELDS_INSERT
-			+ ", dateJoined";
-	protected static String INSERT_SQL = "insert into users ( " + FIELDS_INSERT
-			+ " ) " + "values(?,?,?,?,?,?)";
+	protected static final String FIELDS_INSERT = "username, email, password, fullname, type";
+	protected static final String FIELDS_RETURN = "user_id, " + FIELDS_INSERT;
+	protected static String INSERT_SQL = "insert into user ( " + FIELDS_INSERT
+			+ " ) " + "values(?,?,?,?,?)";
 	protected static String SELECT_SQL = "select " + FIELDS_RETURN
 			+ " from users where userID = ?";
-	protected static String UPDATE_SQL = "update users set username = ?, "
-			+ "email = ?, password = ?, firstName = ?, lastName = ? "
-			+ "where userID = ?";
-	protected static String DELETE_SQL = "delete from users where userID = ?";
+	protected static String UPDATE_SQL = "update user set username = ?, "
+			+ "email = ?, password = ?, fullname = ? "
+			+ "where user_id = ?";
+	protected static String DELETE_SQL = "delete from user where user_id = ?";
 
 	public UserDAO(String contextName) {
 		super(contextName);
@@ -42,6 +41,7 @@ public class UserDAO extends SQLHandler {
 			prepStmt.setString(i++, user.getEmail());
 			prepStmt.setString(i++, user.getPassword());
 			prepStmt.setString(i++, user.getFullName());
+			prepStmt.setString(i++, user.getType().toString());
 
 			// execute Statement
 			prepStmt.executeUpdate();
