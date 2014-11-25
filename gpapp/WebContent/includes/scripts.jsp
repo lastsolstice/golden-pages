@@ -12,7 +12,6 @@
 <script>
 $(document).ready(function() {
   $('form').submit(function(event) {
-   // alert("hey");
     var form = $(this);
 	var infoBox = $("#message_box");							//TO ADD
 	

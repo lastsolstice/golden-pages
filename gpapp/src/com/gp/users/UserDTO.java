@@ -1,6 +1,6 @@
 package com.gp.users;
 
-public class User {
+public class UserDTO {
 
 	public static enum Type{
 		BIZ_USER, CONS_USER;
@@ -8,6 +8,9 @@ public class User {
 	
 	private String uid;
 	private String username;
+	private String fullName;
+	private String email;
+	private String password;
 	private Type type;
 	
 	
@@ -22,6 +25,25 @@ public class User {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	public Type getType() {
 		return type;

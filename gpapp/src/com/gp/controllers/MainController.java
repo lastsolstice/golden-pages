@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import com.gp.users.User;
+import com.gp.users.UserDTO;
 import com.gp.users.UserFactory;
 import com.gp.util.Helper;
 
@@ -59,7 +59,7 @@ public class MainController extends HttpServlet {
 		switch (action) {
 		case REGISTER_ACTION:
 			UserFactory factory = new UserFactory();							//TODO implement
-			User user = null;
+			UserDTO user = null;
 			String option = request.getParameter("options");
 			String fullName = request.getParameter("full-name");
 			String username = request.getParameter("username");
@@ -83,7 +83,7 @@ public class MainController extends HttpServlet {
 			}
 			else if(option.equals("opt-biz")){
 				user = factory.createConsumerUser(fullName, username, email, password);
-				responseJSON.put("message", "Missing attribute");
+				responseJSON.put("message", "Missing attributes");
 			}
 			responseJSON.put("message", "The account was created");	
 			
