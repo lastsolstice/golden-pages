@@ -8,10 +8,10 @@
 		<div id="account-types" class="btn-group" data-toggle="buttons">
 
 			 <label class="btn btn-success active"> <input type="radio"
-				name="options" id="opt-biz" autocomplete="off"> As Business
+				name="options" id="opt-biz" value="opt-biz"autocomplete="off" checked> As Business
 			</label>
 			<label class="btn btn-success"> <input type="radio"
-				name="options" id="opt-cons" autocomplete="off" checked> As
+				name="options" id="opt-cons" value="opt-cons" autocomplete="off"> As
 				Consumer</label>
 
 		</div>

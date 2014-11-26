@@ -6,6 +6,10 @@ public class UserDTO {
 		BIZ_USER, CONS_USER;
 	}
 	
+	public static enum ColumnName{
+		EMAIL, USERNAME
+	}
+	
 	private String uid;
 	private String username;
 	private String fullName;

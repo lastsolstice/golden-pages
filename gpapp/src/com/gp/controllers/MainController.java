@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.simple.JSONObject;
 
+import com.gp.users.UserDAO;
 import com.gp.users.UserDTO;
+import com.gp.users.UserDTO.ColumnName;
 import com.gp.users.UserFactory;
 import com.gp.util.Helper;
 
@@ -49,6 +52,9 @@ public class MainController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
+		String hey = request.getParameter("options");
+		System.out.println("option: " + hey);
+
 		String action = request.getParameter("action");
 		JSONObject responseJSON = new JSONObject();
 
@@ -59,10 +65,11 @@ public class MainController extends HttpServlet {
 			if (request.getSession().getAttribute("user") != null) {
 				System.out.println("User already exist");
 				responseJSON.put("status", "ERROR");
-				responseJSON.put("message", "Trying to create a duplicate account");
+				responseJSON.put("message",
+						"Trying to create a duplicate account");
 				break;
 			}
-			UserFactory factory = new UserFactory(); // TODO implement
+			UserFactory factory = new UserFactory("jdbc/gpappdb"); 
 			UserDTO user = new UserDTO();
 			String option = request.getParameter("options");
 			user.setFullName(request.getParameter("full-name"));
@@ -82,7 +89,19 @@ public class MainController extends HttpServlet {
 				responseJSON.put("message", "The passwords didn't match.");
 				break;
 			}
+			String rawPass = user.getPassword();
+			user.setPassword(DigestUtils.md5Hex(rawPass));
 			try {
+				UserDAO userDAO = new UserDAO("jdbc/gpappdb");
+				if (userDAO.existAs(user.getUsername(), ColumnName.USERNAME)
+						|| userDAO.existAs(user.getEmail(), ColumnName.EMAIL)) {
+					responseJSON.put("status", "ERROR");
+					responseJSON.put("message",
+							"The username or email is already taken");
+					break;
+				}
+
+				System.out.println("option: " + option);
 				if (option.equals("opt-biz")) {
 					String bizName = request.getParameter("bname");
 					factory.createBusinessUser(bizName, user);
@@ -96,8 +115,8 @@ public class MainController extends HttpServlet {
 				break;
 			}
 			responseJSON.put("message", "The account was created");
+			responseJSON.put("action", "reload");
 			request.getSession().setAttribute("user", user);
-			response.sendRedirect("/" + getServletContext().getServletContextName());
 			break; // break case
 
 		default:
@@ -111,5 +130,8 @@ public class MainController extends HttpServlet {
 		out.flush();
 
 	}
+	
+	
+	
 
 }

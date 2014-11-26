@@ -14,13 +14,16 @@ $(document).ready(function() {
   $('form').submit(function(event) {
     var form = $(this);
 	var infoBox = $("#message_box");							//TO ADD
-	
+	var postAction = "";
+	//log(postAction);
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),
       data: form.serialize(),
       success: function(response){								//in this case it is returning the strings
-      	if(response.status == "OK"){
+    	  postAction = response.action;
+    	  console.log(postAction);
+      		if(response.status == "OK"){
       		infoBox.removeClass("alert-danger");
       		infoBox.addClass("alert-success");
       		$("#form").trigger('reset');
@@ -35,6 +38,11 @@ $(document).ready(function() {
       
       
     }).done(function() {
+    	//log(postAction);
+    	
+    	if(postAction == "reload"){
+    		location.reload();
+    	}
     // Optionally alert the user of success here...
     }).fail(function() {
     // Optionally alert the user of an error here...
@@ -55,9 +63,11 @@ $(document).ready(function() {
 	//$("#bname").hide();
 	$('#account-types .btn').click(function() {
 	    $(this).addClass('active').siblings().removeClass('active');
+	    //$(this).first().prop("checked", true);
 	    if($(this).children().first().attr("id") == "opt-cons"){
 	    	$("#bname").slideUp('slow');
 	    	$("#bname").empty();
+	    	//$("#opt-biz").prop("checked", false);
 	    	//alert("btn 1 selected");
 	    }else{
 	    	$("#bname").slideDown('slow');

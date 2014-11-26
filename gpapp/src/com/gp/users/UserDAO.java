@@ -4,23 +4,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import com.gp.business.BusinessDTO;
+import com.gp.users.UserDTO.ColumnName;
 import com.gp.util.DAOException;
 import com.gp.util.SQLHandler;
 import com.mysql.jdbc.PreparedStatement;
 
-//DATA ACCCESS OBJECT J2EE PATTERNS BOOK PAGE 467
 public class UserDAO extends SQLHandler {
 	protected static final String FIELDS_INSERT = "username, email, password, fullname, type";
 	protected static final String FIELDS_RETURN = "user_id, " + FIELDS_INSERT;
 	protected static String INSERT_SQL = "insert into user ( " + FIELDS_INSERT
 			+ " ) " + "values(?,?,?,?,?)";
 	protected static String SELECT_SQL = "select " + FIELDS_RETURN
-			+ " from users where userID = ?";
+			+ " from user where user_id = ?";
 	protected static String UPDATE_SQL = "update user set username = ?, "
-			+ "email = ?, password = ?, fullname = ? "
-			+ "where user_id = ?";
+			+ "email = ?, password = ?, fullname = ? " + "where user_id = ?";
 	protected static String DELETE_SQL = "delete from user where user_id = ?";
 
 	public UserDAO(String contextName) {
@@ -35,6 +37,8 @@ public class UserDAO extends SQLHandler {
 
 		try {
 			// create and setup
+			System.out.println(INSERT_SQL);
+
 			prepStmt = conn.prepareStatement(INSERT_SQL);
 			int i = 1;
 			prepStmt.setString(i++, user.getUsername());
@@ -43,12 +47,14 @@ public class UserDAO extends SQLHandler {
 			prepStmt.setString(i++, user.getFullName());
 			prepStmt.setString(i++, user.getType().toString());
 
+			System.out.println(prepStmt);
+
 			// execute Statement
 			prepStmt.executeUpdate();
 
 			stmt = conn.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("select user_id, password from users where username='"
+					.executeQuery("select user_id, password from user where username='"
 							+ user.getUsername() + "' limit 1");
 
 			if (rs.next()) {
@@ -149,18 +155,30 @@ public class UserDAO extends SQLHandler {
 	 * @return userID or -1 if doesnt exists
 	 */
 
-	public boolean existAs(String value) {
+	public boolean existAs(String value, ColumnName column) {
+		
+		System.out.println("value : " + value);
+		
 		boolean exist = false;
 		Statement stmt = null;
 		Connection conn = super.getConnectionJDBC();
-		final String SELECT_EXISTANCE = "select userID from users where ";
+		final String SELECT_EXISTANCE = "select user_id from user where ";
 		String field = null;
 
 		/*
-		 * If we want to find by username and then by email switch(column){ case
-		 * EMAIL: field = "email"; break; case USERNAME: field = "username";
-		 * break; default: break; }
+		 * If we want to find by username and then by email
 		 */
+
+		switch (column) {
+		case EMAIL:
+			field = "email";
+			break;
+		case USERNAME:
+			field = "username";
+			break;
+		default:
+			break;
+		}
 
 		try {
 			stmt = conn.createStatement();
@@ -169,6 +187,9 @@ public class UserDAO extends SQLHandler {
 			ResultSet rs = stmt.executeQuery(SELECT_EXISTANCE + field + "='"
 					+ value + "' limit 1");
 
+			System.out.println(SELECT_EXISTANCE + field + "='"
+					+ value + "' limit 1");
+			
 			if (rs.next()) {
 
 				exist = true;// rs.getInt("userID");
@@ -268,12 +289,11 @@ public class UserDAO extends SQLHandler {
 		return userID;
 	}
 
-	
-	//INCOMPLETE
+	// INCOMPLETE
 	public void updateField(String aField, UserDTO userInfo)
 			throws DAOException {
 
-		String statement = "update users set fieldname = ? where user_id = ?";
+		String statement = "update user set <<fieldname here>> = ? where user_id = ?";
 		Connection conn = super.getConnectionJDBC();
 		java.sql.PreparedStatement prepStmt = null;
 		// ResultSet rs = null;
@@ -294,6 +314,53 @@ public class UserDAO extends SQLHandler {
 			e.printStackTrace();
 		}
 
+	}
+	
+
+	public void addManagesRelation(UserDTO user, BusinessDTO business) throws SQLException{
+		Statement stmt = null;
+		Connection conn = super.getConnectionJDBC();
+		final String query = "insert into manages(user_id, business_id) values (" + user.getUid() + "," + business.getBid() + ")";
+		stmt =conn.createStatement();
+		
+		
+		try {
+			stmt = conn.createStatement();
+			// I could set limit to infinite, then count if there is more than
+			// 1;
+			int rs = stmt.executeUpdate(query);
+			
+			stmt.close();
+			conn.close();
+			stmt = null;
+			conn = null;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		} finally {
+
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (Exception sqlex) {
+
+				}
+
+				stmt = null;
+			}
+
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (Exception sqlex) {
+
+					conn = null;
+				}
+
+			}
+
+		}
 	}
 
 }

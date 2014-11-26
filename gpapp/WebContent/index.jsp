@@ -36,7 +36,7 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<%-- Consumer --%>
+				<%-- logged in --%>
 				<jsp:include page="includes/panel.jsp" flush="true" />
 			</c:otherwise>
 		</c:choose>

@@ -52,21 +52,23 @@
 								<li><a href="#">Something else here</a></li>
 							</ul>
 						</li>
+						 <li><a href="#">Logout</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="dropdown" id="menuLogin">
 						    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Login <span class="caret"></span></a>
 							<div class="dropdown-menu" style="padding:17px;">
-								<form class="form" id="formLogin">
+								<form class="form" id="formLogin" method="POST" action="MainController">
+									<input hidden=true name="action" value="LOGIN" >
 									<div class="form-group">
 										<label for="username">Username</label> <input
-											type="text" class="form-control" id="username"
+											type="text" class="form-control" name="username" id="username"
 											placeholder="Username">
 									</div>
 									<div class="form-group">
 										<label for="password">Password</label> <input
 											type="password" class="form-control"
-											id="password" placeholder="Password">
+											id="password" name="name" placeholder="Password">
 									</div>
 									<button type="submit" class="btn btn-default">Log In</button>
 								</form>
