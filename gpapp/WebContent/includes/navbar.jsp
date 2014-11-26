@@ -52,7 +52,7 @@
 								<li><a href="#">Something else here</a></li>
 							</ul>
 						</li>
-						 <li><a href="#">Logout</a></li>
+						 <li><a href="${pageContext.request.contextPath}/MainController?action=LOGOUT">Logout</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="dropdown" id="menuLogin">
@@ -61,14 +61,14 @@
 								<form class="form" id="formLogin" method="POST" action="MainController">
 									<input hidden=true name="action" value="LOGIN" >
 									<div class="form-group">
-										<label for="username">Username</label> <input
-											type="text" class="form-control" name="username" id="username"
+										<label for="log_username">Username</label> <input
+											type="text" class="form-control" name="log_username" id="log_username"
 											placeholder="Username">
 									</div>
 									<div class="form-group">
-										<label for="password">Password</label> <input
+										<label for="log_password">Password</label> <input
 											type="password" class="form-control"
-											id="password" name="name" placeholder="Password">
+											id="log_password" name="log_password" placeholder="Password">
 									</div>
 									<button type="submit" class="btn btn-default">Log In</button>
 								</form>

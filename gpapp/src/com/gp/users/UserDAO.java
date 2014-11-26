@@ -103,7 +103,7 @@ public class UserDAO extends SQLHandler {
 
 	}
 
-	public UserDTO find(Integer userID) {
+	public UserDTO find(String userID) {
 		UserDTO user = null;
 		Connection conn = super.getConnectionJDBC();
 		java.sql.PreparedStatement prepStmt = null;

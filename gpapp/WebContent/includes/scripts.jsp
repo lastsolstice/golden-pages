@@ -22,7 +22,7 @@ $(document).ready(function() {
       data: form.serialize(),
       success: function(response){								//in this case it is returning the strings
     	  postAction = response.action;
-    	  console.log(postAction);
+    	  //console.log(postAction);
       		if(response.status == "OK"){
       		infoBox.removeClass("alert-danger");
       		infoBox.addClass("alert-success");
