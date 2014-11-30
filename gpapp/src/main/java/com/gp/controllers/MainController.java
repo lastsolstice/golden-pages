@@ -19,6 +19,7 @@ import com.gp.users.UserDTO.ColumnName;
 import com.gp.users.UserFactory;
 import com.gp.util.Helper;
 import com.gp.util.MailSender;
+import com.gp.util.MessageDTO;
 
 /**
  * Servlet implementation class MainController
@@ -101,6 +102,7 @@ public class MainController extends HttpServlet {
 	}
 	
 	
+	
 	private JSONObject recoverPassword(HttpServletRequest request) {
 		JSONObject responseJSON = new JSONObject();
 		if (request.getSession().getAttribute("user") != null) {
@@ -109,9 +111,32 @@ public class MainController extends HttpServlet {
 			return responseJSON;
 		}
 		String email = request.getParameter("recover-email");
-
+		if(email == null || email.isEmpty()){
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message", "Missing email field, please try again");
+			return responseJSON;
+		}
+		UserDAO dao = new UserDAO("jdbc/gpappdb");
+		
+		if(!dao.existAs(email,ColumnName.EMAIL)){
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message", "The email couldn't be found in the records.");
+			return responseJSON;
+		}
+		UserDTO user = dao.findbyEmail(email);
+		MessageDTO message = new MessageDTO();
+		message.setFromAddress("noreply@gp.com");
+		message.setFromName("Golden Pages");
+		message.setToName(user.getFullName());
+		message.setToAddress(email);
+		message.setTitle("Password Recovery");
+		String newPassword = Helper.randomString();
+		String md5 = Helper.md5(newPassword);
+		message.setText("Your new password is " + newPassword);
+		
 		try {
-			MailSender.send();
+			dao.updateField(md5, ColumnName.PASSWORD, user);
+			MailSender.send(message);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,14 +145,11 @@ public class MainController extends HttpServlet {
 			return responseJSON;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
+		responseJSON.put("status", "OK");
+		responseJSON.put("message", "A new password was sent to your email. (Check your spam forlder)");
+		responseJSON.put("action", "reload");
 		return responseJSON;
+		
 	}
 
 	public JSONObject register(HttpServletRequest request){
