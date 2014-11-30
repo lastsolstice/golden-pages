@@ -1,5 +1,5 @@
 
-<form id="register" role="form" action="MainController" method="POST">
+<form id="register" role="form" action="${pageContext.request.contextPath}/MainController" method="POST">
 	<div class="register-container">
 		<h3>Sign Up</h3>
 		<h5>It's free and always will be.</h5>

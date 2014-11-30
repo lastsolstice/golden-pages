@@ -53,24 +53,29 @@
 								<li><a href="#">Something else here</a></li>
 							</ul>
 						</li>
-						 <li><a href="${pageContext.request.contextPath}/MainController?action=LOGOUT">Logout</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/MainController?action=LOGOUT">Logout</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="dropdown" id="menuLogin">
-						    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Login <span class="caret"></span></a>
-							<div class="dropdown-menu" style="padding:17px;">
-								<form class="form" id="formLogin" method="POST" action="MainController">
-									<input hidden=true name="action" value="LOGIN" >
+						<li class="dropdown" id="menuLogin"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-expanded="false">Login <span class="caret"></span></a>
+							<div class="dropdown-menu" style="padding: 17px;">
+								<form class="form" id="formLogin" method="POST"
+									action="${pageContext.request.contextPath}/MainController">
+									<input hidden=true name="action" value="LOGIN">
 									<div class="form-group">
-										<label for="log_username">Username</label> <input
-											type="text" class="form-control" name="log_username" id="log_username"
+										<label for="log_username">Username</label> <input type="text"
+											class="form-control" name="log_username" id="log_username"
 											placeholder="Username">
 									</div>
 									<div class="form-group">
 										<label for="log_password">Password</label> <input
-											type="password" class="form-control"
-											id="log_password" name="log_password" placeholder="Password">
+											type="password" class="form-control" id="log_password"
+											name="log_password" placeholder="Password">
 									</div>
+									<a href="${pageContext.request.contextPath}/recover-password/">Forgot
+										Password?</a>
 									<button type="submit" class="btn btn-default">Log In</button>
 								</form>
 							</div></li>

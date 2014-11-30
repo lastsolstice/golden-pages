@@ -25,6 +25,19 @@
    <artifactId>jstl</artifactId>
    <version>1.2</version>
  </dependency>
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.5.2</version>
+</dependency>
+   <!--
+    <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>7.0</version>
+        <scope>provided</scope>
+    </dependency>
+ -->
  <dependency>
    <groupId>junit</groupId>
    <artifactId>junit</artifactId>
@@ -35,6 +48,23 @@
    <artifactId>mysql-connector-java</artifactId>
    <version>5.1.6</version>
  </dependency>
+    <dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>1.4</version>
+    </dependency>
+
+    <dependency>
+        <groupId>commons-pool</groupId>
+        <artifactId>commons-pool</artifactId>
+        <version>1.6</version>
+    </dependency>
+
+    <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.1</version>
+    </dependency>
 
 
 
@@ -57,8 +87,8 @@
     <artifactId>maven-compiler-plugin</artifactId>
     <version>3.1</version>
     <configuration>
-     <source>1.8</source>
-     <target>1.8</target>
+     <source>1.7</source>
+     <target>1.7</target>
    </configuration>
  </plugin>
  <plugin>
@@ -67,7 +97,7 @@
   <version>2.2</version>
 
   <configuration>
-   <url>http://131.94.128.221:8080/manager/text</url>
+   <url>http://jorgetravieso.com:8080/manager/text</url>
    <server>tomcat</server>
    <path>/${project.build.finalName}</path>
  </configuration>

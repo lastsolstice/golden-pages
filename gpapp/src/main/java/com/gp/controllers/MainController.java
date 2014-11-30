@@ -2,6 +2,7 @@ package com.gp.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import com.gp.users.UserDTO;
 import com.gp.users.UserDTO.ColumnName;
 import com.gp.users.UserFactory;
 import com.gp.util.Helper;
+import com.gp.util.MailSender;
 
 /**
  * Servlet implementation class MainController
@@ -37,6 +39,9 @@ public class MainController extends HttpServlet {
 	public static final String REGISTER_ACTION = "REGISTER";
 	public static final String LOGIN_ACTION = "LOGIN";
 	public static final String LOGOUT_ACTION = "LOGOUT";
+	public static final String RECOVER_PASSWORD_ACTION = "RECOVER_PASSWORD"; 
+	
+	
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -79,7 +84,9 @@ public class MainController extends HttpServlet {
 		case LOGIN_ACTION:
 			responseJSON = login(request);
 			break;
-
+		case RECOVER_PASSWORD_ACTION:	
+			responseJSON = recoverPassword(request);
+			break;
 		default:
 			responseJSON = new JSONObject();
 			responseJSON.put("status", "Incomplete");
@@ -94,6 +101,35 @@ public class MainController extends HttpServlet {
 	}
 	
 	
+	private JSONObject recoverPassword(HttpServletRequest request) {
+		JSONObject responseJSON = new JSONObject();
+		if (request.getSession().getAttribute("user") != null) {
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message", "The user is already logged in and cannot request password");
+			return responseJSON;
+		}
+		String email = request.getParameter("recover-email");
+
+		try {
+			MailSender.send();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message", e.getMessage());
+			return responseJSON;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		return responseJSON;
+	}
+
 	public JSONObject register(HttpServletRequest request){
 		JSONObject responseJSON = new JSONObject();
 		if (request.getSession().getAttribute("user") != null) {
