@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="com.gp.users.UserDTO" %>
 
 
 
@@ -37,7 +38,15 @@
 			</c:when>
 			<c:otherwise>
 				<%-- logged in --%>
-				<jsp:include page="includes/panel.jsp" flush="true" />
+				<c:choose>
+					<c:when test="${user.type == UserDTO.Type.BIZ_USER}">
+						<script type="text/javascript"> alert("hey biz") </script>
+						<jsp:include page="includes/panel-biz.jsp" flush="true" />
+					</c:when>
+					<c:otherwise>
+						<jsp:include page="includes/panel-cons.jsp" flush="true" />
+					</c:otherwise>
+				</c:choose>
 			</c:otherwise>
 		</c:choose>
 	</div>

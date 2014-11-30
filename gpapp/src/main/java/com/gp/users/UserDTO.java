@@ -7,7 +7,7 @@ public class UserDTO {
 	}
 	
 	public static enum ColumnName{
-		EMAIL, USERNAME
+		EMAIL, USERNAME, PASSWORD
 	}
 	
 	private String uid;

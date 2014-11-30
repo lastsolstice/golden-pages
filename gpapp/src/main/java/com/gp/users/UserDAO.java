@@ -123,7 +123,7 @@ public class UserDAO extends SQLHandler {
 				user.setEmail(rs.getString(i++));
 				user.setPassword(rs.getString(i++));
 				user.setFullName(rs.getString(i++));
-
+				user.setType(UserDTO.Type.valueOf(rs.getString(i++)));
 			}
 
 			rs.close();
@@ -149,6 +149,51 @@ public class UserDAO extends SQLHandler {
 		return user;
 	}
 
+	public UserDTO findbyEmail(String email) {
+		UserDTO user = null;
+		Connection conn = super.getConnectionJDBC();
+		java.sql.PreparedStatement prepStmt = null;
+		ResultSet rs = null;
+
+		try {
+			// setup statement and retrieve results
+			prepStmt = conn.prepareStatement("select " + FIELDS_RETURN + " from user where email = ?");
+			prepStmt.setString(1, email);
+			rs = prepStmt.executeQuery();
+			if (rs.next()) {
+				// create DTO using data from rs
+				user = new UserDTO();
+				int i = 1;
+				user.setUid(rs.getString(i++));
+				user.setUsername(rs.getString(i++));
+				user.setEmail(rs.getString(i++));
+				user.setPassword(rs.getString(i++));
+				user.setFullName(rs.getString(i++));
+
+			}
+
+			rs.close();
+			prepStmt.close();
+			conn.close();
+			prepStmt = null;
+			conn = null;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (Exception sqlex) {
+					conn = null;
+				}
+
+			}
+		}
+
+		return user;
+	}
 	/*
 	 * @param userName, passWord
 	 * 
@@ -290,17 +335,33 @@ public class UserDAO extends SQLHandler {
 	}
 
 	// INCOMPLETE
-	public void updateField(String aField, UserDTO userInfo)
+	public void updateField(String value, ColumnName column, UserDTO userInfo)
 			throws DAOException {
 
-		String statement = "update user set <<fieldname here>> = ? where user_id = ?";
+		String field = null;
+		switch (column) {
+		case EMAIL:
+			field = "email";
+			break;
+		case USERNAME:
+			field = "username";
+			break;
+		case PASSWORD:
+			field = "password";
+			break;
+		default:
+			break;
+		}
+		
+		
+		String statement = "update user set " + field + " = ? where user_id = ?";
 		Connection conn = super.getConnectionJDBC();
 		java.sql.PreparedStatement prepStmt = null;
 		// ResultSet rs = null;
 		int rowCount;
 		try {
 			prepStmt = conn.prepareStatement(statement);
-			prepStmt.setString(1, aField);
+			prepStmt.setString(1, value);
 			prepStmt.setString(2, (userInfo.getUid()));
 			rowCount = prepStmt.executeUpdate();
 			prepStmt.close();

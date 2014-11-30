@@ -1,3 +1,5 @@
+
+     
       <div class="row">
 
         <div class="col-md-8 navs-container">
@@ -47,10 +49,10 @@
         </div>
         <div id="account" class="tab-pane fade">
           <div class="btn-group" style="margin-bottom:10px;">
-            <button type="button" class="btn btn-default">Edit</button>
+            <button type="button" id="edit-info" class="btn btn-default">Edit</button>
           </div>
-          <h2>Jorge Travieso <small>jtraviesor</small></h2>
-          <strong>Email:</strong>&nbsp;<p>jtraviesor@example.com</p>
+          <h2>${user.fullName}&nbsp;&nbsp;<small>${user.username}</small></h2>
+          <strong>Email:</strong>&nbsp;<p>${user.email}</p>
         </div>
       </div>
 

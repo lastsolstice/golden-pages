@@ -13,32 +13,21 @@ import javax.mail.internet.MimeMessage;
 
 public class MailSender {
 
-	public static void send() throws UnsupportedEncodingException, MessagingException{
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
+	public static void send(MessageDTO message)
+			throws UnsupportedEncodingException, MessagingException {
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
 
-        String msgBody = "hello this is the message body";
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress(message.getFromAddress(), message
+				.getFromName()));
+		msg.addRecipient(
+				Message.RecipientType.TO,
+				new InternetAddress(message.getToAddress(), message.getToName()));
+		msg.setSubject(message.getTitle());
+		msg.setText(message.getText());
+		Transport.send(msg);
 
-      //  try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("noreply@gp.com", "gp.com Admin"));
-            msg.addRecipient(Message.RecipientType.TO,
-                             new InternetAddress("jtraviesor@gmail.com", "Mr. User"));
-            msg.setSubject("Your Example.com account has been activated");
-            msg.setText(msgBody);
-            Transport.send(msg);
-
-   //     } catch (AddressException e) {
-    //        e.printStackTrace();
-    //    } catch (MessagingException e) {
-    //        e.printStackTrace();
-    //    }
 	}
-	
-	
-	public static void main(String[] args) throws UnsupportedEncodingException, MessagingException{
-		MailSender.send();
-	}
-	
-	
+
 }
