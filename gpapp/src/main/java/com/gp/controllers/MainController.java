@@ -24,6 +24,7 @@ import com.gp.util.MessageDTO;
 /**
  * Servlet implementation class MainController
  */
+@SuppressWarnings("unchecked")
 @WebServlet("/MainController")
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,7 +41,8 @@ public class MainController extends HttpServlet {
 	public static final String REGISTER_ACTION = "REGISTER";
 	public static final String LOGIN_ACTION = "LOGIN";
 	public static final String LOGOUT_ACTION = "LOGOUT";
-	public static final String RECOVER_PASSWORD_ACTION = "RECOVER_PASSWORD"; 
+	public static final String RECOVER_PASSWORD_ACTION = "RECOVER_PASSWORD";
+	public static final String USER_INFO_EDIT_ACTION = "USER_INFO_EDIT";
 	
 	
 	
@@ -57,7 +59,7 @@ public class MainController extends HttpServlet {
 		switch(action){
 		case  LOGOUT_ACTION:
 			logout(request);
-			response.sendRedirect("/gpapp");
+			response.sendRedirect(context);
 			//getServletContext().getRequestDispatcher("/").forward(request, response); 
 			break;
 		default:
@@ -91,6 +93,9 @@ public class MainController extends HttpServlet {
 		case RECOVER_PASSWORD_ACTION:	
 			responseJSON = recoverPassword(request);
 			break;
+		case USER_INFO_EDIT_ACTION:
+			responseJSON = userEdit(request);
+			break;
 		default:
 			responseJSON = new JSONObject();
 			responseJSON.put("status", "Incomplete");
@@ -106,6 +111,47 @@ public class MainController extends HttpServlet {
 	
 	
 	
+	private JSONObject userEdit(HttpServletRequest request) {
+		JSONObject responseJSON = new JSONObject();
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+		if (user == null) {        //this could be 
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message", "Unathenticated");
+			responseJSON.put("action","reload");
+			return responseJSON;
+		}
+		String fullName = request.getParameter("fullname");
+		String username = request.getParameter("username");
+		String email = request.getParameter("email");
+		
+		if(!Helper.isValid(fullName, username, email)){
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message",
+					"Missing or invalid attributes");
+			responseJSON.put("action","reload");
+			return responseJSON;
+		}
+		UserDAO dao = new UserDAO("jdbc/gpappdb");
+		if (dao.existDifferent(user.getUid(), username, ColumnName.USERNAME)
+				|| dao.existDifferent(user.getUid(),email, ColumnName.EMAIL)) {
+			responseJSON.put("status", "ERROR");
+			responseJSON.put("message",
+					"The username or email is already taken");
+			responseJSON.put("action","reload");
+			return responseJSON;
+		}
+		
+		user.setFullName(fullName);
+		user.setEmail(email);
+		user.setUsername(username);
+		
+		
+		dao.update(user);
+		responseJSON.put("status", "OK");
+		responseJSON.put("message", "User info has been updated");
+		return responseJSON;
+	}
+
 	private JSONObject recoverPassword(HttpServletRequest request) {
 		JSONObject responseJSON = new JSONObject();
 		if (request.getSession().getAttribute("user") != null) {
@@ -199,6 +245,11 @@ public class MainController extends HttpServlet {
 			System.out.println("option: " + option);
 			if (option.equals("opt-biz")) {
 				String bizName = request.getParameter("bname");
+				if(bizName == null || bizName.isEmpty()){
+					responseJSON.put("status", "ERROR");
+					responseJSON.put("message", "Business name is missing or invalid");
+					return responseJSON;
+				}
 				factory.createBusinessUser(bizName, user);
 			} else if (option.equals("opt-cons")) {
 				factory.createConsumerUser(user);
@@ -209,6 +260,7 @@ public class MainController extends HttpServlet {
 			responseJSON.put("message", "SQL problem");
 			return responseJSON;
 		}
+		responseJSON.put("status", "OK");
 		responseJSON.put("message", "The account was created");
 		responseJSON.put("action", "reload");
 		request.getSession().setAttribute("user", user);

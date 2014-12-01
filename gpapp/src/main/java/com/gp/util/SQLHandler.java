@@ -3,6 +3,7 @@ package com.gp.util;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -42,6 +43,17 @@ public class SQLHandler {
 		
 		return conn;
 	}
+   	
+   	public void closeConnection(Connection conn){
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (Exception sqlex) {
+				conn = null;
+			}
+
+		}
+   	}
 	
 	
 	public void executeUpdateJDBC(String statement) throws Exception {

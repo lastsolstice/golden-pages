@@ -22,7 +22,8 @@ public class UserDAO extends SQLHandler {
 	protected static String SELECT_SQL = "select " + FIELDS_RETURN
 			+ " from user where user_id = ?";
 	protected static String UPDATE_SQL = "update user set username = ?, "
-			+ "email = ?, password = ?, fullname = ? " + "where user_id = ?";
+			+ "email = ?, password = ?, fullname = ? , type = ? "
+			+ "where user_id = ?";
 	protected static String DELETE_SQL = "delete from user where user_id = ?";
 
 	public UserDAO(String contextName) {
@@ -106,12 +107,9 @@ public class UserDAO extends SQLHandler {
 	public UserDTO find(String userID) {
 		UserDTO user = null;
 		Connection conn = super.getConnectionJDBC();
-		java.sql.PreparedStatement prepStmt = null;
 		ResultSet rs = null;
 
-		try {
-			// setup statement and retrieve results
-			prepStmt = conn.prepareStatement(SELECT_SQL);
+		try (java.sql.PreparedStatement prepStmt = conn.prepareStatement(SELECT_SQL)){
 			prepStmt.setString(1, userID.toString());
 			rs = prepStmt.executeQuery();
 			if (rs.next()) {
@@ -127,23 +125,12 @@ public class UserDAO extends SQLHandler {
 			}
 
 			rs.close();
-			prepStmt.close();
-			conn.close();
-			prepStmt = null;
-			conn = null;
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (Exception sqlex) {
-					conn = null;
-				}
-
-			}
+			closeConnection(conn);
 		}
 
 		return user;
@@ -157,7 +144,8 @@ public class UserDAO extends SQLHandler {
 
 		try {
 			// setup statement and retrieve results
-			prepStmt = conn.prepareStatement("select " + FIELDS_RETURN + " from user where email = ?");
+			prepStmt = conn.prepareStatement("select " + FIELDS_RETURN
+					+ " from user where email = ?");
 			prepStmt.setString(1, email);
 			rs = prepStmt.executeQuery();
 			if (rs.next()) {
@@ -182,18 +170,12 @@ public class UserDAO extends SQLHandler {
 			ex.printStackTrace();
 		} finally {
 
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (Exception sqlex) {
-					conn = null;
-				}
-
-			}
+			closeConnection(conn);
 		}
 
 		return user;
 	}
+
 	/*
 	 * @param userName, passWord
 	 * 
@@ -201,11 +183,10 @@ public class UserDAO extends SQLHandler {
 	 */
 
 	public boolean existAs(String value, ColumnName column) {
-		
+
 		System.out.println("value : " + value);
-		
+
 		boolean exist = false;
-		Statement stmt = null;
 		Connection conn = super.getConnectionJDBC();
 		final String SELECT_EXISTANCE = "select user_id from user where ";
 		String field = null;
@@ -225,16 +206,15 @@ public class UserDAO extends SQLHandler {
 			break;
 		}
 
-		try {
-			stmt = conn.createStatement();
+		try (Statement stmt = conn.createStatement()) {
 			// I could set limit to infinite, then count if there is more than
 			// 1;
 			ResultSet rs = stmt.executeQuery(SELECT_EXISTANCE + field + "='"
 					+ value + "' limit 1");
 
-			System.out.println(SELECT_EXISTANCE + field + "='"
-					+ value + "' limit 1");
-			
+			System.out.println(SELECT_EXISTANCE + field + "='" + value
+					+ "' limit 1");
+
 			if (rs.next()) {
 
 				exist = true;// rs.getInt("userID");
@@ -243,33 +223,62 @@ public class UserDAO extends SQLHandler {
 			rs.close();
 			stmt.close();
 			conn.close();
-			stmt = null;
-			conn = null;
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 
 		} finally {
 
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (Exception sqlex) {
+			closeConnection(conn);
 
-				}
+		}
 
-				stmt = null;
+		return exist;
+	}
+	
+	public boolean existDifferent(String uid, String value, ColumnName column) {
+
+		boolean exist = false;
+		Connection conn = super.getConnectionJDBC();
+		final String SELECT_EXISTANCE = "select user_id from user where ";
+		String field = null;
+
+		/*
+		 * If we want to find by username and then by email
+		 */
+
+		switch (column) {
+		case EMAIL:
+			field = "email";
+			break;
+		case USERNAME:
+			field = "username";
+			break;
+		default:
+			break;
+		}
+
+		try (Statement stmt = conn.createStatement()) {
+
+			ResultSet rs = stmt.executeQuery(SELECT_EXISTANCE + field + "='"
+					+ value + "' AND user_id != '" + uid + "' limit 1");
+
+
+			if (rs.next()) {
+
+				exist = true;// rs.getInt("userID");
+
 			}
+			rs.close();
+			stmt.close();
+			conn.close();
 
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (Exception sqlex) {
+		} catch (Exception ex) {
+			ex.printStackTrace();
 
-					conn = null;
-				}
+		} finally {
 
-			}
+			closeConnection(conn);
 
 		}
 
@@ -278,15 +287,10 @@ public class UserDAO extends SQLHandler {
 
 	public String verifyUserAndGetID(String username, String password) {
 		String userID = null;
-		Statement stmt = null;
 		Connection conn = super.getConnectionJDBC();
 		final String SELECT_EXISTANCE = "select user_id, username, password from user where ";
-		// String username
+		try (Statement stmt = conn.createStatement()) {
 
-		try {
-			stmt = conn.createStatement();
-			// I could set limit to infinite, then count if there is more than
-			// 1;
 			ResultSet rs = stmt.executeQuery(SELECT_EXISTANCE + "username ='"
 					+ username + "' limit 1");
 
@@ -301,40 +305,45 @@ public class UserDAO extends SQLHandler {
 			rs.close();
 			stmt.close();
 			conn.close();
-			stmt = null;
-			conn = null;
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 
 		} finally {
-
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (Exception sqlex) {
-
-				}
-
-				stmt = null;
-			}
-
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (Exception sqlex) {
-
-					conn = null;
-				}
-
-			}
-
+			closeConnection(conn);
 		}
 
 		return userID;
 	}
 
-	// INCOMPLETE
+	public void update(UserDTO user) {
+
+		String statement = UPDATE_SQL;
+		Connection conn = super.getConnectionJDBC();
+		int rowCount;
+		try (java.sql.PreparedStatement prepStmt = conn
+				.prepareStatement(statement)) {
+			int i = 1;
+			prepStmt.setString(i++, user.getUsername());
+			prepStmt.setString(i++, user.getEmail());
+			prepStmt.setString(i++, user.getPassword());
+			prepStmt.setString(i++, user.getFullName());
+			prepStmt.setString(i++, user.getType().toString());
+			prepStmt.setString(i++, user.getUid());
+			rowCount = prepStmt.executeUpdate();
+			prepStmt.close();
+			if (rowCount == 0) {
+				throw new DAOException("Update Error: User: " + user.getUid());
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConnection(conn);
+		}
+	}
+
 	public void updateField(String value, ColumnName column, UserDTO userInfo)
 			throws DAOException {
 
@@ -352,18 +361,16 @@ public class UserDAO extends SQLHandler {
 		default:
 			break;
 		}
-		
-		
-		String statement = "update user set " + field + " = ? where user_id = ?";
+
+		String statement = "update user set " + field
+				+ " = ? where user_id = ?";
 		Connection conn = super.getConnectionJDBC();
-		java.sql.PreparedStatement prepStmt = null;
-		// ResultSet rs = null;
-		int rowCount;
-		try {
-			prepStmt = conn.prepareStatement(statement);
+
+		try (java.sql.PreparedStatement prepStmt = conn
+				.prepareStatement(statement)) {
 			prepStmt.setString(1, value);
 			prepStmt.setString(2, (userInfo.getUid()));
-			rowCount = prepStmt.executeUpdate();
+			int rowCount = prepStmt.executeUpdate();
 			prepStmt.close();
 			if (rowCount == 0) {
 				throw new DAOException("Update Error: User: "
@@ -371,56 +378,31 @@ public class UserDAO extends SQLHandler {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			closeConnection(conn);
 		}
 
 	}
-	
 
-	public void addManagesRelation(UserDTO user, BusinessDTO business) throws SQLException{
-		Statement stmt = null;
+	public void addManagesRelation(UserDTO user, BusinessDTO business)
+			throws SQLException {
 		Connection conn = super.getConnectionJDBC();
-		final String query = "insert into manages(user_id, business_id) values (" + user.getUid() + "," + business.getBid() + ")";
-		stmt =conn.createStatement();
-		
-		
-		try {
-			stmt = conn.createStatement();
-			// I could set limit to infinite, then count if there is more than
-			// 1;
+		final String query = "insert into manages(user_id, business_id) values ("
+				+ user.getUid() + "," + business.getBid() + ")";
+
+		try (Statement stmt = conn.createStatement()) {
 			int rs = stmt.executeUpdate(query);
-			
-			stmt.close();
-			conn.close();
-			stmt = null;
-			conn = null;
+			if (rs == 0) {
+				throw new DAOException("error addManagesRelation(): User: "
+						+ user.getUid());
+			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 
 		} finally {
-
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (Exception sqlex) {
-
-				}
-
-				stmt = null;
-			}
-
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (Exception sqlex) {
-
-					conn = null;
-				}
-
-			}
-
+			closeConnection(conn);
 		}
 	}
 

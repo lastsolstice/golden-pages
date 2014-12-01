@@ -8,37 +8,11 @@
 	$(document).ready(function() {
 		$('form').submit(function(event) {
 			var form = $(this);
-			var infoBox = $("#message_box"); //TO ADD
-			var postAction = "";
-			$.ajax({
-				type : form.attr('method'),
-				url : form.attr('action'),
-				data : form.serialize(),
-				success : function(response) {
-					postAction = response.action;
-					if (response.status == "OK") {
-						infoBox.removeClass("alert-danger");
-						infoBox.addClass("alert-success");
-						$("#form").trigger('reset');
-						infoBox.html(response.message);
-					} else {
-						infoBox.removeClass("alert-success");
-						infoBox.addClass("alert-danger");
-						infoBox.html(response.message);
-					}
-				}
-			}).done(function() {
-				if (postAction == "reload") {
-					location.reload();
-				}
-			}).fail(function() {
-				infoBox.removeClass("alert-success");
-				infoBox.addClass("alert-danger");
-				infoBox.html("Your request cannot be completed at this time");
-
-			});
-			// Prevent the form from submitting via the browser.
-			event.preventDefault(); 
+			var method = form.attr('method');
+			var action = form.attr('action');
+			var data = form.serialize();
+			ajaxGeneric(action,method,data);
+			event.preventDefault(); // Prevent the form from submitting via the browser.
 		});
 	});
 </script>
@@ -81,7 +55,7 @@
 						username: $("#info-username").children().first().val(), 
 						email:$("#info-email").children().first().val()
 			    };
-			    ajaxGeneric(params,action,"POST");
+			    ajaxGeneric(action,"POST",params);
 			}
 			
 			$('#edit-info').text(text);
@@ -101,7 +75,7 @@
 </script>
 
 <script>
-function ajaxGeneric(params,action, method){
+function ajaxGeneric(action, method,params){
 			var infoBox = $("#message_box");
 			var postAction = "";			
 			console.log(params);
@@ -135,4 +109,23 @@ function ajaxGeneric(params,action, method){
 			
 }
 </script>
+
+<script>
+	//Keep selected tab on page refresh
+    $('#panel-tabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    $('#panel-tabs a[href="' + hash + '"]').tab('show');
+</script>
+
 

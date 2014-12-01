@@ -4,7 +4,7 @@
 
 	<div class="col-md-8 navs-container">
 
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" id="panel-tabs">
 			<li class="active"><a href="#messages" data-toggle="tab"><i
 					class="fa fa-envelope"></i>&nbsp;Messages</a></li>
 			<li><a href="#schedule" data-toggle="tab"><i
