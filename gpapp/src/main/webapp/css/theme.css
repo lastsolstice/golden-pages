@@ -1,56 +1,47 @@
 /* Bootstrap tweaks */
-
 .navbar {
 	margin-bottom: 0px;
 }
 
-.im-centered{margin: auto; max-width: 300px;}
-
-form#register button{
-	width:130px;
+.im-centered {
+	margin: auto;
+	max-width: 300px;
 }
 
-
-#account-types .btn{
-	
-	margin:15px;
-	border-radius:4px;
+form#register button {
+	width: 130px;
 }
 
-form#register{
-	padding:20px;
+#account-types .btn {
+	margin: 15px;
+	border-radius: 4px;
 }
 
-
-
-form#register input, .register-container{
-	max-width:400px;
-	margin:auto;
+form#register {
+	padding: 20px;
 }
 
-
+form#register input, .register-container {
+	max-width: 400px;
+	margin: auto;
+}
 
 /*Image */
-#company-logo{
-	width:70%;
-	height:auto;
-	max-height:230px;
+#company-logo {
+	width: 70%;
+	height: auto;
+	max-height: 230px;
 }
 
 /*Header */
-.header-wrap{
+.header-wrap {
 	width: 100%;
 	min-height: 300px;
 	padding: 45px 30px 30px 30px;
 	margin: 0px 0px 25px 0px;
-	color:white;
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		right top,
-		color-stop(0, #0068A4),
-		color-stop(0.72, #1CB6C4)
-		);
+	color: white;
+	background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0, #0068A4),
+		color-stop(0.72, #1CB6C4));
 	background-image: -o-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
 	background-image: -moz-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
 	background-image: -webkit-linear-gradient(right top, #0068A4 0%, #1CB6C4 72%);
@@ -58,26 +49,25 @@ form#register input, .register-container{
 	background-image: linear-gradient(to right top, #0068A4 0%, #1CB6C4 72%);
 }
 
-.navs-container{
+.navs-container {
 	margin: 0px 0px 0px 0px;
 	padding: 15px;
 	border: 1px solid #00CED1;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	
 }
 
-.tab-content{
+.tab-content {
 	text-align: justify;
 	min-height: 500px;
 }
 
-.navs-container .tab-pane{
+.navs-container .tab-pane {
 	padding: 10px;
-
 }
-.schedule-wrap{
+
+.schedule-wrap {
 	background-color: gray;
 	color: white;
 	padding: 30px;
@@ -86,33 +76,33 @@ form#register input, .register-container{
 	text-align: center;
 }
 
-.info-box{
+.info-box {
 	min-height: 200px;
 }
 
-#profile-pic{
+#profile-pic {
 	max-width: 130px;
 	min-width: 130px;
 }
 
-footer{
+footer {
 	background-color: #333;
 	color: white;
 	min-height: 350px;
 	width: 100%;
-	padding:20px;
-	margin:0px;
-	font-size:13px;
+	padding: 20px;
+	margin: 0px;
+	font-size: 13px;
 	text-align: justify;
-
-
 }
-footer div{
-	padding:0px;
+
+footer div {
+	padding: 0px;
 }
-body{
-	margin-bottom:0;
-	padding:0px;
+
+body {
+	margin-bottom: 0;
+	padding: 0px;
 }
 
 footer .footer_header {
@@ -121,34 +111,33 @@ footer .footer_header {
 	font-weight: 300;
 	font-size: 25px;
 	margin-bottom: 40px;
-	margin-left: 15px; 
+	margin-left: 15px;
 }
 
-footer p, footer a{
+footer p, footer a {
 	font-size: .9em;
-	color:white;
+	color: white;
 }
 
-div.info p{
-	margin:0;
-	padding:0;
+div.info p {
+	margin: 0;
+	padding: 0;
 }
 
-footer div.end a, footer div.end p{
-	font-size:13px;
+footer div.end a, footer div.end p {
+	font-size: 13px;
 }
 
-footer hr.featurette-divider, .featurette-container hr.featurette-divider{
+footer hr.featurette-divider, .featurette-container hr.featurette-divider
+	{
 	margin: 20px 0px;
 }
 
-ul.inline-list{
+ul.inline-list {
 	display: inline;
 }
 
-#user-info input{
-	width:50%;
-	height:auto;
+#user-info input {
+	width: 50%;
+	height: auto;
 }
-
-

@@ -1,5 +1,7 @@
 
-<form id="register" role="form" action="${pageContext.request.contextPath}/MainController" method="POST">
+<form id="register" role="form"
+	action="${pageContext.request.contextPath}/MainController"
+	method="POST">
 	<div class="register-container">
 		<h3>Sign Up</h3>
 		<h5>It's free and always will be.</h5>
@@ -7,12 +9,13 @@
 	<div class="im-centered row">
 		<div id="account-types" class="btn-group" data-toggle="buttons">
 
-			 <label class="btn btn-success active"> <input type="radio"
-				name="options" id="opt-biz" value="opt-biz"autocomplete="off" checked> As Business
+			<label class="btn btn-success active"> <input type="radio"
+				name="options" id="opt-biz" value="opt-biz" autocomplete="off"
+				checked> As Business
+			</label> <label class="btn btn-success"> <input type="radio"
+				name="options" id="opt-cons" value="opt-cons" autocomplete="off">
+				As Consumer
 			</label>
-			<label class="btn btn-success"> <input type="radio"
-				name="options" id="opt-cons" value="opt-cons" autocomplete="off"> As
-				Consumer</label>
 
 		</div>
 
@@ -22,8 +25,8 @@
 	<div class="row">
 		<input type="text" hidden=true name="action" value="REGISTER">
 		<div class="form-group">
-			<input type="text" hidden=true class="form-control" name="bname" id="bname"
-				placeholder="Business Name">
+			<input type="text" hidden=true class="form-control" name="bname"
+				id="bname" placeholder="Business Name">
 		</div>
 		<div class="form-group">
 			<input type="text" class="form-control" name="full-name"

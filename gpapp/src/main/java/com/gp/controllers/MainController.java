@@ -117,7 +117,7 @@ public class MainController extends HttpServlet {
 		if (user == null) {        //this could be 
 			responseJSON.put("status", "ERROR");
 			responseJSON.put("message", "Unathenticated");
-			responseJSON.put("action","reload");
+			responseJSON.put("action","reload-slow");
 			return responseJSON;
 		}
 		String fullName = request.getParameter("fullname");
@@ -128,7 +128,7 @@ public class MainController extends HttpServlet {
 			responseJSON.put("status", "ERROR");
 			responseJSON.put("message",
 					"Missing or invalid attributes");
-			responseJSON.put("action","reload");
+			responseJSON.put("action","reload-slow");
 			return responseJSON;
 		}
 		UserDAO dao = new UserDAO("jdbc/gpappdb");
@@ -137,7 +137,7 @@ public class MainController extends HttpServlet {
 			responseJSON.put("status", "ERROR");
 			responseJSON.put("message",
 					"The username or email is already taken");
-			responseJSON.put("action","reload");
+			responseJSON.put("action","reload-slow");
 			return responseJSON;
 		}
 		
