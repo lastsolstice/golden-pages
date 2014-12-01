@@ -1,11 +1,18 @@
 package com.mycompany.app;
 
+import javax.swing.text.html.CSS;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit test
  */
 public class AppTest 
     extends TestCase
@@ -29,10 +36,59 @@ public class AppTest
     }
 
     /**
-     * Rigourous Test :-)
+     * 
      */
-    public void testApp()
+    public void ConsumerSignUp()
     {
-        assertTrue( true );
+    	WebDriver driver = new HtmlUnitDriver();
+    	driver.get("http://localhost:8080/gpapp");
+    	System.out.println("Page title " + driver.getTitle());
+    	WebElement element = driver.findElement(By.id("full-name"));
+    	element.sendKeys("rihihana");
+    	
+    	element = driver.findElement(By.id("username"));
+    	element.sendKeys("rihihana");
+
+    	element = driver.findElement(By.id("email"));
+    	element.sendKeys("rihihana@rihihana.com");
+
+    	element = driver.findElement(By.id("password"));
+    	element.sendKeys("123");
+
+    	element = driver.findElement(By.id("password-confirm"));
+    	element.sendKeys("123");
+    	
+    	element.submit();
+    	System.out.println("Page title " + driver.getTitle());
+        //assertTrue( true );
+    }
+    
+    /**
+     * 
+     */
+    public void ConsumerSignUpError()
+    {
+    	WebDriver driver = new HtmlUnitDriver();
+    	driver.get("http://localhost:8080/gpapp");
+    	WebElement element = driver.findElement(By.id("full-name"));
+    	element.sendKeys("rihihana");
+    	
+    	element = driver.findElement(By.id("username"));
+    	element.sendKeys("rihihana");
+
+    	element = driver.findElement(By.id("email"));
+    	element.sendKeys("rihihana@rihihana.com");
+
+    	element = driver.findElement(By.id("password"));
+    	element.sendKeys("123");
+
+    	element = driver.findElement(By.id("password-confirm"));
+    	element.sendKeys("123");
+    	
+    	element.submit();
+    	
+    	//element = driver.findElement(By.tagName("message_box"));
+    	System.out.println("Page Title " + driver.getTitle()); //element.getText());
+        //assertTrue( true );
     }
 }

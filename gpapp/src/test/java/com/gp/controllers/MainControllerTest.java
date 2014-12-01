@@ -21,16 +21,4 @@ public class MainControllerTest {
 		
 	}
 	
-//	@Test
-//	public void mainpg(){
-//
-//		WebDriver driver = new HtmlUnitDriver();
-//		
-//		driver.get("http://localhost:8080/gpapp/");				//webpage
-//		
-//		assertTrue( driver.getTitle().startsWith("Golden Pages"));
-//		//driver. findElement("bname");
-//	}
-	
-	
 }
