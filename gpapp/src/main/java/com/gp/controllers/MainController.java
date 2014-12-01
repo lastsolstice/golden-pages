@@ -77,6 +77,9 @@ public class MainController extends HttpServlet {
 		JSONObject responseJSON = null; 
 		String action = request.getParameter("action");
 
+		if(action == null){
+			action = "";
+		}
 
 		switch (action) {
 		case REGISTER_ACTION:

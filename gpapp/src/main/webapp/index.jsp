@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="com.gp.users.UserDTO" %>
-
-
+<%@ page import="com.gp.users.UserDTO"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,19 +26,22 @@
 			<c:when test="${user==null}">
 				<div class="row">
 					<div class="col-md-6">
-						<div id="message_box" class="alert" role="alert">
-						</div>
+						<div id="message_box" class="alert" role="alert"></div>
 					</div>
 					<div class="col-md-6">
-					<jsp:include page="includes/register.jsp" flush="true" />
+						<jsp:include page="includes/register.jsp" flush="true" />
 					</div>
 				</div>
 			</c:when>
 			<c:otherwise>
 				<%-- logged in --%>
+				<div class="row">
+					<div class="col-md-6">
+						<div id="message_box" class="alert" role="alert"></div>
+					</div>
+				</div>
 				<c:choose>
 					<c:when test="${user.type == UserDTO.Type.BIZ_USER}">
-						<script type="text/javascript"> alert("hey biz") </script>
 						<jsp:include page="includes/panel-biz.jsp" flush="true" />
 					</c:when>
 					<c:otherwise>
