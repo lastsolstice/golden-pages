@@ -42,7 +42,7 @@
 					<h2>Schedule</h2>
 					<ul class="list-group">
 						<c:forEach var="appt" items="${calendar.apptList}">
-							<li class="list-group-item">${appt.date}</li>
+							<li class="list-group-item">${appt.date}&nbsp;${appt.status}</li>
 						</c:forEach>
 					</ul>
 

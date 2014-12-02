@@ -142,9 +142,16 @@ public class MainController extends HttpServlet {
     boolean valid = facade.addEntry(hour, date, businessId, user.getUid(), CalendarDTO.Type.C2B);
     if (!valid) {
       responseJSON.put("status", "ERROR");
-      responseJSON.put("message", "Server error");
+      responseJSON.put("message", "Server error or invalid input");
       return responseJSON;
     }
+    
+    CalendarFacade cfacade = new CalendarFacade();
+    CalendarBean calendar = cfacade.find(user);
+
+    request.getSession().setAttribute("calendar", calendar);
+    
+    
     responseJSON.put("status", "OK");
     responseJSON.put("message", "Calendar Entry Added");
     responseJSON.put("action", "reload-slow");
@@ -361,6 +368,7 @@ public class MainController extends HttpServlet {
     response.put("message", "Successful logout");
     response.put("action", "reload");
     request.getSession().removeAttribute("user");
+    request.getSession().removeAttribute("calendar");
     return response;
   }
 

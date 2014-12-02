@@ -6,6 +6,10 @@ import java.util.Date;
 import com.gp.business.BusinessDAO;
 import com.gp.users.UserDAO;
 import com.gp.users.UserDTO;
+import com.gp.users.UserDTO.ColumnName;
+import com.gp.util.Helper;
+import com.gp.util.MailSender;
+import com.gp.util.MessageDTO;
 
 public class CalendarFacade {
 
@@ -52,9 +56,14 @@ public class CalendarFacade {
       calendar.setType(CalendarDTO.Type.C2B);
       calendarDAO.create(calendar);
       
-      
-      
-      
+      MessageDTO message = new MessageDTO();
+      message.setFromAddress("noreply@gp.com");
+      message.setFromName("Golden Pages");
+      message.setToName(invitee.getFullName());
+      message.setToAddress(invitee.getEmail());
+      message.setTitle("New appointment requested");
+      message.setText("New appointment requested on calendar:\n" + calendar );
+      MailSender.send(message);
       
 
     } catch (Exception e) {

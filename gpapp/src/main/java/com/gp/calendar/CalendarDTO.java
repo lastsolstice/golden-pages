@@ -58,6 +58,12 @@ public class CalendarDTO {
   public void setType(Type type) {
     this.type = type;
   }
+  @Override
+  public String toString() {
+    return "CalendarDTO [id=" + id + ", date=" + date + ", inviteeId=" + inviteeId + ", inviterId="
+        + inviterId + ", status=" + status + ", type=" + type + "]";
+  }
+  
   
   
   
