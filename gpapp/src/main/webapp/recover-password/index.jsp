@@ -31,14 +31,18 @@
 
 		<div class="row">
 			<div class="col-md-6">
-				<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/MainController" method="POST">
+				<form class="form-horizontal" role="form"
+					action="${pageContext.request.contextPath}/MainController"
+					method="POST">
 					<div class="form-group">
-						<h4 style="margin-top:60px;">Please enter the email used for registration</h4>
-						<input type="text" name="action" hidden=true value="RECOVER_PASSWORD">
-						<label for="recover-email" class="col-sm-2 control-label">Email:</label>
+						<h4 style="margin-top: 60px;">Please enter the email used for
+							registration</h4>
+						<input type="text" name="action" hidden=true
+							value="RECOVER_PASSWORD"> <label for="recover-email"
+							class="col-sm-2 control-label">Email:</label>
 						<div class="col-sm-10">
-							<input type="email" class="form-control" name="recover-email" id="recover-email"
-								placeholder="Email">
+							<input type="email" class="form-control" name="recover-email"
+								id="recover-email" placeholder="Email">
 						</div>
 						<button id="" type="submit" class="btn btn-success">Submit</button>
 					</div>
