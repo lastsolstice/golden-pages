@@ -28,17 +28,14 @@ public class UserDAO extends SQLHandler {
     super(contextName);
   }
 
-  public void create(UserDTO user) throws Exception {
+  public boolean create(UserDTO user) throws Exception {
     Connection conn = super.getConnectionJDBC();
-
-    java.sql.PreparedStatement prepStmt = null;
+    boolean valid = true;
+   
     Statement stmt = null;
 
-    try {
-      // create and setup
-      System.out.println(INSERT_SQL);
+    try( java.sql.PreparedStatement prepStmt = conn.prepareStatement(INSERT_SQL)) {
 
-      prepStmt = conn.prepareStatement(INSERT_SQL);
       int i = 1;
       prepStmt.setString(i++, user.getUsername());
       prepStmt.setString(i++, user.getEmail());
@@ -71,34 +68,19 @@ public class UserDAO extends SQLHandler {
       stmt.close();
       conn.close();
       stmt = null;
-      prepStmt = null;
       conn = null;
 
     } catch (Exception ex) {
+      valid = false;
       ex.printStackTrace();
     } finally {
 
-      if (stmt != null) {
-        try {
-          stmt.close();
-        } catch (Exception sqlex) {
+      close(stmt);
+      close(conn);
 
-        }
-
-        stmt = null;
-      }
-
-      if (conn != null) {
-        try {
-          conn.close();
-        } catch (Exception sqlex) {
-
-          conn = null;
-        }
-
-      }
-
+      
     }
+    return valid;
 
   }
 
@@ -128,7 +110,7 @@ public class UserDAO extends SQLHandler {
       ex.printStackTrace();
     } finally {
 
-      closeConnection(conn);
+      close(conn);
     }
 
     return user;
@@ -167,7 +149,7 @@ public class UserDAO extends SQLHandler {
       ex.printStackTrace();
     } finally {
 
-      closeConnection(conn);
+      close(conn);
     }
 
     return user;
@@ -224,7 +206,7 @@ public class UserDAO extends SQLHandler {
 
     } finally {
 
-      closeConnection(conn);
+      close(conn);
 
     }
 
@@ -274,7 +256,7 @@ public class UserDAO extends SQLHandler {
 
     } finally {
 
-      closeConnection(conn);
+      close(conn);
 
     }
 
@@ -305,7 +287,7 @@ public class UserDAO extends SQLHandler {
       ex.printStackTrace();
 
     } finally {
-      closeConnection(conn);
+      close(conn);
     }
 
     return userID;
@@ -334,7 +316,7 @@ public class UserDAO extends SQLHandler {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } finally {
-      closeConnection(conn);
+      close(conn);
     }
   }
 
@@ -370,7 +352,7 @@ public class UserDAO extends SQLHandler {
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
-      closeConnection(conn);
+      close(conn);
     }
 
   }
@@ -391,8 +373,28 @@ public class UserDAO extends SQLHandler {
       ex.printStackTrace();
 
     } finally {
-      closeConnection(conn);
+      close(conn);
     }
   }
+  
+  public Integer findManagerId(String businessId) throws SQLException {
+    Connection conn = super.getConnectionJDBC();
+    final String query =
+        "select user_id from manages where business_id = " + businessId;
+    int id = -1;
+    try (Statement stmt = conn.createStatement()) {
+      ResultSet rs = stmt.executeQuery(query);
+      if (rs.next()) {
+        id = Integer.parseInt(rs.getString(1));
+      }
 
+    } catch (Exception ex) {
+      ex.printStackTrace();
+
+    } finally {
+      close(conn);
+    }
+    return id;
+  }
+  
 }

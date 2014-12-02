@@ -6,11 +6,16 @@
 <link
 	href="${pageContext.request.contextPath}/css/bootstrap-theme.min.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/css/theme.css"
-	rel="stylesheet">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/jquery-ui.min.css">
 <link
 	href="${pageContext.request.contextPath}/css/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/theme.css"
+	rel="stylesheet">
+
+
+
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

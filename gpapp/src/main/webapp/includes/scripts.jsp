@@ -1,8 +1,13 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ page import="com.gp.users.UserDTO,com.gp.calendar.CalendarBean"%>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
 
 <!-- Generic AJAX call for any form  -->
 <script>
@@ -12,7 +17,7 @@
 			var method = form.attr('method');
 			var action = form.attr('action');
 			var data = form.serialize();
-			ajaxGeneric(action, method, data);
+			ajaxGeneric(action, method, data, "#message_box");
 			event.preventDefault(); // Prevent the form from submitting via the browser.
 		});
 	});
@@ -55,7 +60,7 @@
 					username : $("#info-username").children().first().val(),
 					email : $("#info-email").children().first().val()
 				};
-				ajaxGeneric(action, "POST", params);
+				ajaxGeneric(action, "POST", params, "#message_box");
 			}
 
 			$('#edit-info').text(text);
@@ -74,9 +79,10 @@
 	});
 </script>
 
+
 <script>
-	function ajaxGeneric(action, method, params) {
-		var infoBox = $("#message_box");
+	function ajaxGeneric(action, method, params, response_target) {
+		var infoBox = $(response_target);
 		var postAction = "";
 		console.log(params);
 		$.ajax({
@@ -136,6 +142,35 @@
 		}
 	});
 </script>
+<script>
+	$(function() {
+		$(".datepicker").datepicker({
+			minDate : 0,
+			maxDate : "+1M +10D"
+		});
+	});
+</script>
+
+<script>
+$(document).ready(function() {
+	$('#add-cal-entry').click(function() {
+		
+			var action = "MainController";
+			var params = {
+				action : 'ADD_CAL_ENTRY',
+				bizid : $("#invitee-add option:selected").val(),
+				hour : $("#hour-add").val(),
+				date : $("#date-add").val()
+			};
+			var response_target = ".modal_box";
+			ajaxGeneric(action, "POST", params, response_target);
+		});
+});
+</script>
+
+
+
+
 
 
 

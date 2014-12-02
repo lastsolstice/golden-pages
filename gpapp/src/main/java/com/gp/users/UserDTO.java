@@ -1,5 +1,9 @@
 package com.gp.users;
 
+import java.util.List;
+
+import com.gp.calendar.CalendarDTO;
+
 public class UserDTO {
 
 	public static enum Type{
@@ -16,6 +20,8 @@ public class UserDTO {
 	private String email;
 	private String password;
 	private Type type;
+	
+	//private List<CalendarDTO> appts;
 	
 	
 	public String getUid() {

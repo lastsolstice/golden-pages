@@ -21,7 +21,7 @@ public class UserFactory{
 	
 	
 	// TODO Auto-generated method stub
-	public  void createBusinessUser(String bizName, UserDTO user) throws Exception{
+	public  boolean createBusinessUser(String bizName, UserDTO user) throws Exception{
 		user.setType(UserDTO.Type.BIZ_USER);
 		
 		UserDAO userDAO = new UserDAO(context);
@@ -29,10 +29,10 @@ public class UserFactory{
 		BusinessDTO business = new BusinessDTO();
 		business.setBusinessName(bizName);
 		business.setDescription("Description Here");
-		userDAO.create(user);
+		boolean flag = userDAO.create(user);
 		businessDAO.create(business);
 		userDAO.addManagesRelation(user,business);
-		
+		return flag;
 		
 
 		
@@ -41,10 +41,10 @@ public class UserFactory{
 		
 	}
 	// TODO Auto-generated method stub
-	public void createConsumerUser(UserDTO user) throws Exception{
+	public boolean createConsumerUser(UserDTO user) throws Exception{
 		user.setType(UserDTO.Type.CONS_USER);
 		UserDAO dao = new UserDAO(context);
-		dao.create(user);
+		return dao.create(user);
 	}
 	
 	

@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.gp.business.BusinessDTO.ColumnName;
+import com.gp.users.UserDTO;
 import com.gp.util.DAOException;
 import com.gp.util.SQLHandler;
 import com.mysql.jdbc.PreparedStatement;
@@ -22,6 +25,8 @@ public class BusinessDAO extends SQLHandler {
 			+ FIELDS_INSERT + " ) " + "values(?,?)";
 	protected static String SELECT_SQL = "select " + FIELDS_RETURN
 			+ " from business where business_id = ?";
+    protected static String SELECT_ALL_SQL = "select " + FIELDS_RETURN
+        + " from business ";
 	protected static String UPDATE_SQL = "update business set business_name = ?, description = ?";
 	protected static String DELETE_SQL = "delete from user where business_id = ?";
 
@@ -138,6 +143,43 @@ public class BusinessDAO extends SQLHandler {
 
 		return business;
 	}
+	
+	public List<BusinessDTO> findAll() {
+	  List<BusinessDTO> list = new LinkedList<>();
+	  
+      Connection conn = super.getConnectionJDBC();
+  
+      ResultSet rs = null;
+      Statement stmt = null;
+
+      try {
+          // setup statement and retrieve results
+          stmt = conn.createStatement();
+          rs = stmt.executeQuery(SELECT_ALL_SQL);
+          while (rs.next()) {
+              BusinessDTO business = new BusinessDTO();
+            // create DTO using data from rs
+              business = new BusinessDTO();
+              int i = 1;
+              business.setBid(rs.getString(i++));
+              business.setBusinessName(rs.getString(i++));
+              business.setDescription(rs.getString(i++));
+              list.add(business);
+          }
+
+          rs.close();
+
+
+      } catch (Exception ex) {
+          ex.printStackTrace();
+      } finally {
+
+         close(stmt);
+         close(conn);
+      }
+
+      return list;
+  }
 
 	/*
 	 * @param userName, passWord
@@ -217,4 +259,6 @@ public class BusinessDAO extends SQLHandler {
 
 		return exist;
 	}
+	
+	
 }
